@@ -2,8 +2,10 @@
 
 from optparse import OptionParser
 from target_class import TargetIpa
+from pathlib import Path
 import os.path
 import zipfile
+
 
 def Parameters():
     parser = OptionParser(usage="usage: %prog [options] filename",
@@ -20,18 +22,22 @@ def Parameters():
     path, filename = os.path.split(args[0])
     return(path, filename)
 
-def UnzipFile():
-    print("[+] unzip started \n")
-    # zip_ref = zipfile.ZipFile(full_path, 'r')
-    # zip_ref.extractall(directory_to_extract_to)
-    # zip_ref.close()
+def UnzipFile(target_to_unzip):
+    full_path = os.path.join(target_to_unzip.santized_path, target_to_unzip.filename)
+    zipped_file = Path(full_path)
+    print("[+] Checking file at path: " + full_path)
+
+    try:
+        result = zipped_file.exists()
+    except FileNotFoundError:
+        print("file not found")
+    else:
+        print("[+] file exist check: " + str(result))
 
 
 
 if __name__ == '__main__':
     print("\n" + ('[+]' * 20) + ' script started ' + ('[+]' * 20) + "\n")
     target = TargetIpa()
-    target.filename, target.file_and_path = Parameters()
-    UnzipFile()
-    print ("filepath:" + target.file_and_path)
-    print ("filename:" + target.filename)
+    target.path, target.filename = Parameters()
+    UnzipFile(target)
