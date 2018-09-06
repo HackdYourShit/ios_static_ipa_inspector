@@ -2,10 +2,12 @@
 
 from optparse import OptionParser
 from target_class import TargetIpa
+from thing_class import Thing
+from r2_helper import CheckBinary
+from log_printer import snappy_console_banner, snappy_console_print, snappy_console_arg_2
 from pathlib import Path
 import os.path
 import zipfile
-
 
 def Parameters():
     parser = OptionParser(usage="usage: %prog [options] filename",
@@ -35,9 +37,14 @@ def UnzipFile(target_to_unzip):
         print("[+] file exist check: " + str(result))
 
 
-
 if __name__ == '__main__':
-    print("\n" + ('[+]' * 20) + ' script started ' + ('[+]' * 20) + "\n")
+    snappy_console_banner('script started')
     target = TargetIpa()
     target.path, target.filename = Parameters()
     UnzipFile(target)
+    CheckBinary()
+    a = Thing()
+    a = ('odd','even','weird')
+    snappy_console_print(a)
+
+    # print a global List.
