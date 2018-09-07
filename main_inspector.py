@@ -2,7 +2,6 @@
 
 from optparse import OptionParser
 from target_class import TargetIpa
-from thing_class import Thing
 from r2_helper import CheckBinary
 from log_printer import snappy_console_banner, snappy_console_print, snappy_console_arg_2
 from pathlib import Path
@@ -43,8 +42,3 @@ if __name__ == '__main__':
     target.path, target.filename = Parameters()
     UnzipFile(target)
     CheckBinary()
-    a = Thing()
-    a = ('odd','even','weird')
-    snappy_console_print(a)
-
-    # print a global List.

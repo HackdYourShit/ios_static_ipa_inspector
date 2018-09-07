@@ -1,6 +1,8 @@
 
 class Thing:
-    def __init__(self):
-        self.key_name = "default name"
-        self.value_1 = "default value"
-        self.value_2 = None
+
+    def __init__(self, key, value):
+        from log_printer import snappy_console_print
+        self.key = key
+        self.value = value
+        snappy_console_print(self)
