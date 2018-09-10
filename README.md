@@ -1,8 +1,26 @@
-# ios_static_ipa_inspector
-Inspect an iOS IPA
+# Inspect an iOS app
+This set of Python scripts was designed to speed up basic static analysis of an iOS IPA.
 
-#### Design Hints
+#### Python and 3rd party APIs
 ```
-In the first version, only main called Snappy Console log functions.  That proved too messy. Many items to print.  Instead, I will create an array of objects and loop through and print each.
+radare2
+os.path
+OptionParser
+```
+#### Invoke the console output
+```
+c = Thing2("warcraft","world","hello")
+YDConsole.single_list(c.yd_list)
+```
 
+
+#### Message in a bottle
+````
+In the first python scripts, it was obvious it was going to get messy., main called the Console log functions.  That proved messy.
+
+To make to code simple to read and maintain, I tried to use Object-Orientated features.
+ 
+Inheritance, overrides and Classes that encapsulated the ability to return strings and lists. 
+
+To minimise sprinkings of print statements, that is all inside the console output.
 ```

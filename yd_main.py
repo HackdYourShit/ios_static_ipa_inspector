@@ -2,9 +2,8 @@
 
 import os.path
 from optparse import OptionParser
-from log_printer import snappy_console_banner
-from r2_helper import CheckBinary
-from unzip_class import Unzipper
+from yd_console import YDConsole
+from yd_radare2 import CheckBinary
 
 
 def Parameters():
@@ -26,6 +25,5 @@ def Parameters():
 
 
 if __name__ == '__main__':
-    snappy_console_banner('script started')
-#    a = Unzipper('my path', 'hello.zippy')
+    YDConsole.banner('script started')
     CheckBinary()
