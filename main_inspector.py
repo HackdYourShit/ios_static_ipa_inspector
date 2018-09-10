@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 
-from optparse import OptionParser
-from target_class import TargetIpa
-from r2_helper import CheckBinary
-from log_printer import snappy_console_banner, snappy_console_print, snappy_console_arg_2
-from pathlib import Path
 import os.path
-import zipfile
+from optparse import OptionParser
+from log_printer import snappy_console_banner
+from r2_helper import CheckBinary
+from unzip_class import Unzipper
+
 
 def Parameters():
     parser = OptionParser(usage="usage: %prog [options] filename",
@@ -23,22 +22,10 @@ def Parameters():
     path, filename = os.path.split(args[0])
     return(path, filename)
 
-def UnzipFile(target_to_unzip):
-    full_path = os.path.join(target_to_unzip.santized_path, target_to_unzip.filename)
-    zipped_file = Path(full_path)
-    print("[+] Checking file at path: " + full_path)
 
-    try:
-        result = zipped_file.exists()
-    except FileNotFoundError:
-        print("file not found")
-    else:
-        print("[+] file exist check: " + str(result))
 
 
 if __name__ == '__main__':
     snappy_console_banner('script started')
-    target = TargetIpa()
-    target.path, target.filename = Parameters()
-    UnzipFile(target)
+#    a = Unzipper('my path', 'hello.zippy')
     CheckBinary()
