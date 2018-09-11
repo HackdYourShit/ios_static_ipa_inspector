@@ -1,6 +1,6 @@
 import r2pipe
-from ios_static_ipa_inspector.yd_thing import Thing, Thing2
-from ios_static_ipa_inspector.yd_console import YDConsole
+from yd_thing import Thing
+from yd_console import YDConsole
 
 def CheckBinary():
     r2 = r2pipe.open("/bin/ls")
