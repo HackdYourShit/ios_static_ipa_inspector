@@ -12,5 +12,5 @@ class YDErrorHandling:
 
     @staticmethod
     def exit_on_usage ( arg1: str ):
-        YDConsole.single_label_and_value('Exiting', f'Cannot find \n\t\t[+] {arg1} ')
+        YDConsole.single_label_and_value('Exiting', f'Cannot find \n\t\t[+] {arg1}')
         sys.exit(1)

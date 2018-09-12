@@ -5,6 +5,10 @@ class YDConsole:
         print('[+]' + str(arg1))
 
     @staticmethod
+    def single_value_subheading ( arg1: str):
+        print('\t' + str(arg1))
+
+    @staticmethod
     def single_label_and_value (arg0: str, arg1: str):
         print('[+]' + arg0 + ': ' + arg1)
 
