@@ -7,4 +7,4 @@ class YDVersion:
 
     @staticmethod
     def string():
-        return f'Version: \t{YDVersion.major}-{YDVersion.minor}-{YDVersion.patch}'
+        return f'Version \t{YDVersion.major}-{YDVersion.minor}-{YDVersion.patch}'

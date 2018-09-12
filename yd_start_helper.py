@@ -1,24 +1,27 @@
 import os.path
 from optparse import OptionParser
+from yd_error_handling import YDErrorHandling
+import sys
 
 class YDStartUpParameters:
 
-    def __init__ ( self, key, value ):
-        self.key = key
-        self.value = value
+    path = sys.argv[1]
+    count = len(sys.argv[1:])
 
-    @property
-    def Parameters():
-        parser = OptionParser(usage="usage: %prog [options] filename",
-                              version="%prog 0.1")
-        parser.add_option("-a", "--assess",
-                          dest="zipped_filename",
-                          default=True,
-                          help="Unzip and assess an iOS IPA file")
-        (options, args) = parser.parse_args()
+    def __init__ (self):
+        self.validate_count()
+        self.validate_path()
 
-        if len(args) != 1:
-            parser.error("wrong number of arguments")
+    def __str__ ( self ):
+        return self.path
 
-        path, filename = os.path.split(args[0])
-        return(path, filename)
+    def validate_count ( self ):
+        if self.count != 1:
+            YDErrorHandling.exit_on_usage(self)
+
+    def validate_path(self):
+        if os.path.isdir(self.path) == False:
+            YDErrorHandling.exit_on_usage(self.path)
+
+        #
+   #     path, filename = os.path.split(args[0])

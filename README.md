@@ -1,6 +1,9 @@
 # Inspect an iOS app
 This set of Python scripts was designed to speed up basic static analysis of an iOS IPA.
 
+
+#### Design Pattern
+The code was written to use Python's Object Orientated features.   The orchestration of the classes was handled by the main file.  This was done as many of the class could be instantiated and then run on different **threads**.
 #### Python and 3rd party APIs
 ```
 radare2

@@ -1,28 +1,34 @@
 #!/usr/bin/env python
 
 import os
+from yd_console import YDConsole
 
-class FileExtensionSearch:
+class YDFileExtensionSearch:
 
     def __init__ ( self, root_directory ):
         self.root_directory = root_directory
 
-    def ListFiles(directory):
-        "Search for files inside the iPA that gives clues about how it works"
+    @staticmethod
+    def list_files(self):
         file_extensions = ['.json', '.cert', '.crt', ]  # 'plist' can return lots of results
-        directory_extensions = ['framework', 'bundle']
-        print("[+] Looking for extension: " + str(file_extensions))
-        print("[+] Looking in directory: " + directory)
+        YDConsole.single_label_and_value("Looking for extension", str(file_extensions))
 
-        for root, dirs, files in os.walk(directory):
-            for d in dirs:
-                if d.endswith(tuple(directory_extensions)):
-                    print("[+] found -> " + os.path.join(root, d))
-
+        for root, dirs, files in os.walk(self.root_directory):
             for f in files:
                 if f.endswith(tuple(file_extensions)):
                     print("[+] found -> " + os.path.join(root, f))
+        return None
 
+
+    @staticmethod
+    def list_frameworks(self):
+        directory_extensions = ['framework', 'bundle']
+        YDConsole.single_label_and_value('Looking in directory' , self.root_directory)
+
+        for root, dirs, files in os.walk(self.root_directory):
+            for d in dirs:
+                if d.endswith(tuple(directory_extensions)):
+                    print("[+] found -> " + os.path.join(root, d))
         return None
 
 
