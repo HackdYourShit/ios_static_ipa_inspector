@@ -16,7 +16,9 @@ class YDFileExtensionSearch:
         self.directory_extensions = ['framework', 'bundle']
         self.file_extensions_light = ['json','cert','crt','html','js', 'cer', 'pub']
         self.file_extensions_deep = ['plist','strings']
-        self.list_files()
+    #     self.list_files()
+  #      self.list_frameworks()
+        self.list_permissions()
 
     def __str__ ( self ):
         return "Log level " + str(self.log_level)
@@ -32,7 +34,7 @@ class YDFileExtensionSearch:
             for root, dirs, files in os.walk(self.root_directory):
                 for f in files:
                     if f.endswith(i):
-                        YDConsole.single_value_subheading(f)
+                        YDConsole.single_value_subheading(os.path.join(root, f))
         return None
 
     def list_frameworks(self):
@@ -46,9 +48,10 @@ class YDFileExtensionSearch:
         return None
 
 
-    def ReadInfoPlist(directory):
-        plist_file = os.path.join(directory, 'Info.plist')
-        print("[+] HUNT -> " + plist_file)
+    def list_permissions(self):
+        plist_file = os.path.join(self.root_directory, '*/Info.plist')
+        YDConsole.single_value(plist_file)
+
         try:
             f = open(plist_file, 'rb')
         except IOError:
