@@ -20,4 +20,4 @@ class YDStartUpParameters:
 
     def validate_path(self):
         if os.path.isdir(self.path) == False:
-            YDErrorHandling.exit_on_usage(self.path)
+            YDErrorHandling.exit_on_usage('cannot find' + self.path)
