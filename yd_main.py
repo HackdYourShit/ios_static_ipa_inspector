@@ -8,10 +8,9 @@ from yd_version import YDVersion
 
 
 if __name__ == '__main__':
-    y = ('script started:')
-    YDConsole.banner(y)
+    YDConsole.banner('script started')
     YDConsole.single_value_subheading(YDVersion.string())
     b = YDStartUpParameters()
-    YDConsole.single_label_and_value('Script executing', b.main_file)
-    YDConsole.single_label_and_value('Path ', b.path)
+    YDConsole.single_value_subheading('Script executing ' + b.main_file)
+    YDConsole.single_value_subheading('Path ' + b.path)
     a = YDFileExtensionSearch(b.path, YDDepth.LIGHT)

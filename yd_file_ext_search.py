@@ -20,6 +20,7 @@ class YDFileExtensionSearch:
         self.log_level = log_depth
         self.general_settings = ['CFBundleName', 'CFBundleExecutable', 'CFBundleIdentifier', 'MinimumOSVersion',
                                  'UILaunchStoryboardName']
+        self.wildcard_searches = ['account', 'key', 'api', 'secret']
         self.directory_extensions = ['framework','bundle','storyboardc']
         self.file_extensions_light = ['json','cert','crt','html','js','cer','pub','txt']
         self.file_extensions_deep = ['plist','strings']
@@ -30,7 +31,6 @@ class YDFileExtensionSearch:
             self.list_frameworks()
             self.inspect_info_plist()
         else:
-            self.list_files()
             self.inspect_info_plist()
 
     def __str__ ( self ):
@@ -69,7 +69,6 @@ class YDFileExtensionSearch:
 
 
     def inspect_info_plist(self):
-
         target_infoplist = self.app_bundle_dir + '/Info.plist'
         if os.path.isfile(target_infoplist) == True:
             YDConsole.single_label_and_value('Searching plist',target_infoplist)
@@ -82,16 +81,35 @@ class YDFileExtensionSearch:
         with open(target_infoplist, 'rb') as f:
             pl = plistlib.load(f)
 
-        temp_permission_dict = {}  # added to avoid mix up of Permissions and Settings
-        YDConsole.banner('General info from Info.plist')
+        temp_permission_dict,temp_settings_dict,temp_wildcards_dict  = {},{},{}  # avoid mix up of data when printing
+
         for key, value in pl.items():
+
             if key in self.general_settings:
-                YDConsole.single_label_and_value(key, value)
+                temp_settings_dict[key] = value
+
             if key.startswith('NS'):
                 temp_permission_dict[key] = value
 
-        YDConsole.banner('User Permissions')
-        for iv, ik in temp_permission_dict.items():
-            YDConsole.single_label_and_value(iv, ik)
+            for i in self.wildcard_searches:
+                if i.lower() in key.lower():
+                    temp_wildcards_dict[key] = value
+
+        if len(temp_settings_dict) > 0:
+            self.print_dict_from_plist('settings',temp_settings_dict)
+
+        if len(temp_permission_dict) > 0:
+            self.print_dict_from_plist('user permissions', temp_permission_dict)
+        else:
+            YDConsole.single_label_and_value('user permissions','none found')
+
+        if len(temp_wildcards_dict) > 0:
+            self.print_dict_from_plist('wildcards in plist', temp_wildcards_dict)
+        return None
+
+    def print_dict_from_plist(self, title: str, findings: dict):
+        YDConsole.banner(title)
+        for k, v in findings.items():
+            YDConsole.single_label_and_value(k, v)
 
         return None
