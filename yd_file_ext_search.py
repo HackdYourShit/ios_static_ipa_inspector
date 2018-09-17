@@ -18,12 +18,20 @@ class YDFileExtensionSearch:
             self.app_bundle_dir = self.return_app_bundle()
 
         self.log_level = log_depth
+        self.general_settings = ['CFBundleName', 'CFBundleExecutable', 'CFBundleIdentifier', 'MinimumOSVersion',
+                                 'UILaunchStoryboardName']
         self.directory_extensions = ['framework','bundle','storyboardc']
         self.file_extensions_light = ['json','cert','crt','html','js','cer','pub','txt']
         self.file_extensions_deep = ['plist','strings']
-  #      self.list_files()
-  #      self.list_frameworks()
-        self.inspect_info_plist()
+        self.target_permissions = ['framework','bundle','storyboardc']
+
+        if self.log_level == YDDepth.HEAVY:
+            self.list_files()
+            self.list_frameworks()
+            self.inspect_info_plist()
+        else:
+            self.list_files()
+            self.inspect_info_plist()
 
     def __str__ ( self ):
         return "Log level " + str(self.log_level)
@@ -61,22 +69,29 @@ class YDFileExtensionSearch:
 
 
     def inspect_info_plist(self):
+
         target_infoplist = self.app_bundle_dir + '/Info.plist'
         if os.path.isfile(target_infoplist) == True:
-            YDConsole.single_value('Found Info.plist')
-        else:
-            return None
+            YDConsole.single_label_and_value('Searching plist',target_infoplist)
+
         try:
-            f = open(target_infoplist, 'r')
+            import plistlib
+        except ImportError:
+            return None
 
-        except IOError:
-            print
-            "Could not read file:", target_infoplist
+        with open(target_infoplist, 'rb') as f:
+            pl = plistlib.load(f)
 
-        with f:
-            if 'Privacy - Photo Library Usage Description' in f.read():
-                print('privacy setting found')
-            else:
-                print('catch?')
+        temp_permission_dict = {}  # added to avoid mix up of Permissions and Settings
+        YDConsole.banner('General info from Info.plist')
+        for key, value in pl.items():
+            if key in self.general_settings:
+                YDConsole.single_label_and_value(key, value)
+            if key.startswith('NS'):
+                temp_permission_dict[key] = value
+
+        YDConsole.banner('User Permissions')
+        for iv, ik in temp_permission_dict.items():
+            YDConsole.single_label_and_value(iv, ik)
 
         return None
