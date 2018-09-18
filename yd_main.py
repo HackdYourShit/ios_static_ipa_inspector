@@ -14,3 +14,4 @@ if __name__ == '__main__':
     YDConsole.single_value_subheading('Script executing ' + b.main_file)
     YDConsole.single_value_subheading('Path ' + b.path)
     a = YDFileExtensionSearch(b.path, YDDepth.LIGHT)
+    CheckBinary(a.exec_path)

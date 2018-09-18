@@ -10,11 +10,11 @@ class YDConsole:
 
     @staticmethod
     def single_label_and_value (arg0: str, arg1: str):
-        print('[+]' + arg0 + ': ' + arg1)
+        print('\t' + arg0 + ': ' + arg1)
 
     @staticmethod
     def banner(arg1: str):
-        print('\n[+]' + ('*' * 10) + ' ' + arg1 + ' ' + ('*' * 10) + '[+]')
+        print('\n[-]' + ('*' * 10) + ' ' + arg1 + ' ' + ('*' * 10) + '[-]')
 
     @staticmethod
     def single_list(arg1: list):

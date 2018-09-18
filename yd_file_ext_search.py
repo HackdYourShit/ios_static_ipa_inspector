@@ -17,11 +17,12 @@ class YDFileExtensionSearch:
         if self.root_directory:
             self.app_bundle_dir = self.return_app_bundle()
 
+        self.exec_path = str()
         self.log_level = log_depth
         self.general_settings = ['CFBundleName', 'CFBundleExecutable', 'CFBundleIdentifier', 'MinimumOSVersion',
                                  'UILaunchStoryboardName']
         self.wildcard_searches = ['account', 'key', 'api', 'secret']
-        self.directory_extensions = ['framework','bundle','storyboardc']
+        self.directory_extensions = ['framework','bundle'] #'storyboardc'
         self.file_extensions_light = ['json','cert','crt','html','js','cer','pub','txt']
         self.file_extensions_deep = ['plist','strings']
         self.target_permissions = ['framework','bundle','storyboardc']
@@ -33,6 +34,7 @@ class YDFileExtensionSearch:
         else:
             self.inspect_info_plist()
 
+
     def __str__ ( self ):
         return "Log level " + str(self.log_level)
 
@@ -42,6 +44,9 @@ class YDFileExtensionSearch:
             YDConsole.single_label_and_value('Found app bundle name', os.path.basename(i))
             return i
         YDErrorHandling.exit_on_usage('no app bundle name found')
+
+    def get_executable_path( self ):
+        return("/file/path")
 
     def list_files(self):
 
@@ -71,7 +76,7 @@ class YDFileExtensionSearch:
     def inspect_info_plist(self):
         target_infoplist = self.app_bundle_dir + '/Info.plist'
         if os.path.isfile(target_infoplist) == True:
-            YDConsole.single_label_and_value('Searching plist',target_infoplist)
+            YDConsole.banner('Searching: ' + target_infoplist)
 
         try:
             import plistlib
@@ -87,6 +92,9 @@ class YDFileExtensionSearch:
 
             if key in self.general_settings:
                 temp_settings_dict[key] = value
+                if key == 'CFBundleExecutable':
+                    self.exec_path = os.path.join(self.app_bundle_dir + '/' + value)
+                    YDConsole.single_value_subheading(f'found exec file: {value}')
 
             if key.startswith('NS'):
                 temp_permission_dict[key] = value
